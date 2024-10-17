@@ -1,0 +1,33 @@
+-- Loop through all tools in the player's backpack and character
+local function extendWeaponRange(player)
+    -- Set an arbitrarily large value for infinite range (e.g., 1e10)
+    local infiniteRange = 1e10
+    
+    -- Check the player's character and backpack for tools (weapons)
+    for _, tool in pairs(player.Backpack:GetChildren()) do
+        if tool:IsA("Tool") then
+            -- If the tool has a 'Handle' part or any similar part where range is defined
+            if tool:FindFirstChild("Handle") then
+                -- Assuming the weapon has a range property (this may need to be adjusted based on how your weapons are coded)
+                if tool:FindFirstChild("Range") then
+                    tool.Range.Value = infiniteRange -- Set the range to 'infinite'
+                end
+            end
+        end
+    end
+    
+    -- Also, check currently equipped tools (if they are in the player's character model)
+    for _, tool in pairs(player.Character:GetChildren()) do
+        if tool:IsA("Tool") then
+            if tool:FindFirstChild("Handle") then
+                if tool:FindFirstChild("Range") then
+                    tool.Range.Value = infiniteRange
+                end
+            end
+        end
+    end
+end
+
+-- Run the script on the local player for testing purposes
+local player = game.Players.LocalPlayer
+extendWeaponRange(player)
